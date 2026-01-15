@@ -45,7 +45,7 @@ jobs:
       with:
         name: Test Results
         path: target/surefire-reports/TEST-*.xml
-        reporter: 'testng'
+        reporter: 'junit'
 
     - name: Test Summary
       if: always()
