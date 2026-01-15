@@ -8,6 +8,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.stream.Collectors;
 import java.util.*;
 
 /**
@@ -146,7 +147,7 @@ public class TestReportListener implements ITestListener {
         // Failed tests details
         List<TestResultDetails> failedTestList = testResults.stream()
                 .filter(r -> "FAILED".equals(r.status))
-                .toList();
+                .collect(Collectors.toList());
 
         if (!failedTestList.isEmpty()) {
             logger.info("\n┌─ FAILED TESTS DETAILS " + "─".repeat(53) + "┐");
