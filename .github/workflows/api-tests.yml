@@ -1,0 +1,44 @@
+name: RestAssured API Tests
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v2
+
+    - name: Build Docker image
+      uses: docker/build-push-action@v4
+      with:
+        context: .
+        push: false
+        load: true
+        tags: restassured-tests:latest
+
+    - name: Run tests in Docker
+      run: |
+        docker run --rm \
+          -v ${{ github.workspace }}/target:/app/target \
+          restassured-tests:latest
+
+    - name: Upload test reports
+      if: always()
+      uses: actions/upload-artifact@v3
+      with:
+        name: test-reports
+        path: target/surefire-reports/
+
+    - name: Publish test results
+      if: always()
+      uses: EnricoMi/publish-unit-test-result-action@v2
+      with:
+        files: target/surefire-reports/**/*.xml
