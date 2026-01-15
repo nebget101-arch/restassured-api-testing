@@ -1,0 +1,68 @@
+{
+  "posts": [
+    {
+      "title": "Test Post",
+      "body": "This is a test post created using RestAssured",
+      "userId": 1
+    },
+    {
+      "title": "Another Test Post",
+      "body": "Second test post for verification",
+      "userId": 2
+    }
+  ],
+  "comments": [
+    {
+      "postId": 1,
+      "name": "Test Comment",
+      "email": "test@example.com",
+      "body": "This is a test comment"
+    },
+    {
+      "postId": 2,
+      "name": "Another Comment",
+      "email": "user@example.com",
+      "body": "This is another test comment"
+    }
+  ],
+  "updateData": [
+    {
+      "id": 1,
+      "title": "Updated Post Title",
+      "body": "This is an updated post",
+      "userId": 1
+    }
+  ],
+  "patchData": [
+    {
+      "title": "Patched Title"
+    }
+  ],
+  "queryParams": [
+    {
+      "userId": 1
+    }
+  ],
+  "deleteTestData": [
+    {
+      "postId": 1,
+      "expectedStatus": 200,
+      "scenario": "Delete post with ID 1"
+    },
+    {
+      "postId": 2,
+      "expectedStatus": 200,
+      "scenario": "Delete post with ID 2"
+    },
+    {
+      "postId": 5,
+      "expectedStatus": 200,
+      "scenario": "Delete post with ID 5"
+    },
+    {
+      "postId": 10,
+      "expectedStatus": 200,
+      "scenario": "Delete post with ID 10"
+    }
+  ]
+}

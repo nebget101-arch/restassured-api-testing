@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-current.dtd">
+<suite name="RestAssured API Testing Suite" parallel="methods" thread-count="3">
+    <listeners>
+        <listener class-name="com.api.testing.utils.TestReportListener"/>
+    </listeners>
+    <test name="API Tests">
+        <classes>
+            <class name="com.api.testing.tests.GetRequestTest"/>
+            <class name="com.api.testing.tests.PostRequestTest"/>
+            <class name="com.api.testing.tests.PutPatchRequestTest"/>
+            <class name="com.api.testing.tests.DeleteRequestTest"/>
+            <class name="com.api.testing.tests.JsonDataProviderTest"/>
+            <class name="com.api.testing.tests.HardcodedDataTest"/>
+            <class name="com.api.testing.tests.ResponseLoggingAndAssertionTest"/>
+        </classes>
+    </test>
+</suite>

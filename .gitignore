@@ -1,0 +1,17 @@
+# Logs
+logs/
+*.log
+
+# Test Reports
+target/surefire-reports/
+*.html
+testng-failed.xml
+testng-results.xml
+
+# IDE
+.idea/
+*.iml
+.vscode/
+
+# Build
+target/
