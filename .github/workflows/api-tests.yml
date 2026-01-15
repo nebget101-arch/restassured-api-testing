@@ -2,9 +2,9 @@ name: RestAssured API Tests
 
 on:
   push:
-    branches: [ main, develop ]
+    branches: [ main, develop, master ]
   pull_request:
-    branches: [ main, develop ]
+    branches: [ main, develop, master ]
   workflow_dispatch:
 
 jobs:
@@ -39,11 +39,22 @@ jobs:
         name: test-reports
         path: target/surefire-reports/
 
-    - name: Publish Test Report
+    - name: Generate Test Report Summary
       if: always()
-      uses: mikepenz/action-junit-report@v4
-      with:
-        report_paths: 'target/surefire-reports/TEST-*.xml'
-        fail_on_failure: false
-        detailed_summary: true
-        include_passed: true
+      run: |
+        echo "## 📊 Test Execution Results" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        
+        if [ -f target/surefire-reports/testng-results.xml ]; then
+          PASSED=$(grep -o '<test.*passed="[0-9]*"' target/surefire-reports/testng-results.xml | grep -o '[0-9]*' | head -1)
+          FAILED=$(grep -o '<test.*failed="[0-9]*"' target/surefire-reports/testng-results.xml | grep -o '[0-9]*' | head -1)
+          SKIPPED=$(grep -o '<test.*skipped="[0-9]*"' target/surefire-reports/testng-results.xml | grep -o '[0-9]*' | head -1)
+          
+          echo "✅ **Tests Passed:** $PASSED" >> $GITHUB_STEP_SUMMARY
+          echo "❌ **Tests Failed:** $FAILED" >> $GITHUB_STEP_SUMMARY
+          echo "⏭️ **Tests Skipped:** $SKIPPED" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "📁 [Download Full Test Report](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})" >> $GITHUB_STEP_SUMMARY
+        else
+          echo "⚠️ No test results found" >> $GITHUB_STEP_SUMMARY
+        fi
