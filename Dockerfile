@@ -5,14 +5,13 @@ WORKDIR /app
 
 # Copy pom.xml and download dependencies
 COPY pom.xml .
-RUN mvn dependency:resolve
+RUN mvn dependency:resolve dependency:copy-dependencies
 
 # Copy the entire project
 COPY . .
 
-# Run tests
-RUN mvn clean test
+# Build project (without running tests)
+RUN mvn clean compile -DskipTests
 
-# Create a stage for test results
-FROM scratch
-COPY --from=0 /app/target/surefire-reports /reports
+# Run tests and generate reports
+CMD ["mvn", "test", "-X"]
