@@ -38,3 +38,21 @@ jobs:
       with:
         name: test-reports
         path: target/surefire-reports/
+
+    - name: Publish Test Results
+      if: always()
+      uses: dorny/test-reporter@v1
+      with:
+        name: Test Results
+        path: target/surefire-reports/TEST-*.xml
+        reporter: 'java-testng'
+
+    - name: Test Summary
+      if: always()
+      run: |
+        echo "## 📊 Test Results Summary" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        if [ -f target/surefire-reports/testng-results.xml ]; then
+          echo "✅ Test reports generated successfully" >> $GITHUB_STEP_SUMMARY
+          echo "📁 [Download Test Report](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})" >> $GITHUB_STEP_SUMMARY
+        fi
