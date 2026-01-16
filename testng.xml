@@ -14,6 +14,7 @@
             <class name="com.api.testing.tests.HardcodedDataTest"/>
             <class name="com.api.testing.tests.ResponseLoggingAndAssertionTest"/>
             <class name="com.api.testing.tests.SchemaValidationTest"/>
+            <class name="com.api.testing.tests.ChainRequestTest"/>
         </classes>
     </test>
 </suite>
