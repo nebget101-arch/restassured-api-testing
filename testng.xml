@@ -13,6 +13,7 @@
             <class name="com.api.testing.tests.JsonDataProviderTest"/>
             <class name="com.api.testing.tests.HardcodedDataTest"/>
             <class name="com.api.testing.tests.ResponseLoggingAndAssertionTest"/>
+            <class name="com.api.testing.tests.SchemaValidationTest"/>
         </classes>
     </test>
 </suite>

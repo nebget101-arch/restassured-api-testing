@@ -91,6 +91,14 @@
             <version>1.0.2</version>
             <scope>test</scope>
         </dependency>
+
+        <!-- JSON Schema Validator for schema validation -->
+        <dependency>
+            <groupId>io.rest-assured</groupId>
+            <artifactId>json-schema-validator</artifactId>
+            <version>${restassured.version}</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <build>
