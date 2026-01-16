@@ -3,6 +3,7 @@
 <suite name="RestAssured API Testing Suite" parallel="methods" thread-count="3">
     <listeners>
         <listener class-name="com.api.testing.utils.TestReportListener"/>
+        <listener class-name="io.qameta.allure.testng.AllureTestNg"/>
     </listeners>
     <test name="API Tests">
         <classes>
@@ -18,6 +19,8 @@
             <class name="com.api.testing.tests.EnvironmentTest"/>
             <class name="com.api.testing.tests.PojoTest"/>
             <class name="com.api.testing.tests.PojoCollectionsTest"/>
+            <class name="com.api.testing.tests.BrokenLinksTest"/>
+            <class name="com.api.testing.tests.AllureReportingTest"/>
         </classes>
     </test>
 </suite>

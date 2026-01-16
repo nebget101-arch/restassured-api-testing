@@ -92,6 +92,35 @@ mvn test -Dtest=ChainRequestTest -Denv=staging
 
 For more details on environment configuration, see [README_ENVIRONMENT.md](README_ENVIRONMENT.md)
 
+## Allure Reporting
+
+This project includes Allure reporting for comprehensive test visualization.
+
+### Local Allure Reports
+
+```bash
+# Run tests (generates results in target/allure-results)
+mvn clean test
+
+# Generate and open report
+allure serve target/allure-results
+
+# Or generate report to directory
+allure generate target/allure-results -o allure-report
+allure open allure-report
+
+# Using Maven plugin
+mvn allure:serve
+```
+
+### GitHub Actions Integration
+
+Tests run automatically on push/PR to main/develop branches. Reports are:
+- Published to GitHub Pages
+- Available as downloadable artifacts
+
+For detailed Allure setup and features, see [ALLURE_GUIDE.md](ALLURE_GUIDE.md)
+
 ## Test Categories
 
 ### 1. GET Request Tests (GetRequestTest.java)

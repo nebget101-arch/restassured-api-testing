@@ -1,4 +1,4 @@
-name: RestAssured API Tests
+name: API Tests with Allure Report
 
 on:
   push:
@@ -9,57 +9,68 @@ on:
 
 jobs:
   test:
+    name: Run API Tests
     runs-on: ubuntu-latest
-
+    
     steps:
-    - uses: actions/checkout@v3
-
-    - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v2
-
-    - name: Build Docker image
-      uses: docker/build-push-action@v4
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      
+    - name: Set up JDK 11
+      uses: actions/setup-java@v4
       with:
-        context: .
-        push: false
-        load: true
-        tags: restassured-tests:latest
-
-    - name: Run tests in Docker
+        java-version: '11'
+        distribution: 'temurin'
+        cache: maven
+        
+    - name: Run tests with Maven
+      run: mvn clean test
       continue-on-error: true
-      run: |
-        docker run --rm \
-          -v ${{ github.workspace }}/target:/app/target \
-          restassured-tests:latest mvn test -X
-
-    - name: Upload test reports
+      
+    - name: Get Allure history
+      uses: actions/checkout@v4
+      if: always()
+      continue-on-error: true
+      with:
+        ref: gh-pages
+        path: gh-pages
+        
+    - name: Generate Allure Report
+      uses: simple-elf/allure-report-action@master
+      if: always()
+      with:
+        allure_results: target/allure-results
+        allure_history: allure-history
+        keep_reports: 20
+        
+    - name: Deploy Allure Report to GitHub Pages
+      if: always()
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_branch: gh-pages
+        publish_dir: allure-history
+        
+    - name: Upload Allure Results as Artifact
       if: always()
       uses: actions/upload-artifact@v4
       with:
-        name: test-reports
-        path: target/surefire-reports/
-
-    - name: Generate Test Report Summary
-      if: always()
-      run: |
-        echo "## 📊 Test Execution Results" >> $GITHUB_STEP_SUMMARY
-        echo "" >> $GITHUB_STEP_SUMMARY
+        name: allure-results
+        path: target/allure-results
+        retention-days: 30
         
-        # List all test report files
-        if ls target/surefire-reports/TEST-*.xml 1> /dev/null 2>&1; then
-          echo "Found test reports:" 
-          ls -la target/surefire-reports/TEST-*.xml
-          
-          # Count test results from all TEST-*.xml files
-          TOTAL_PASSED=$(grep -h 'testcase' target/surefire-reports/TEST-*.xml 2>/dev/null | grep -v 'failure\|error\|skipped' | wc -l)
-          TOTAL_FAILED=$(grep -h 'failure' target/surefire-reports/TEST-*.xml 2>/dev/null | wc -l)
-          TOTAL_SKIPPED=$(grep -h 'skipped' target/surefire-reports/TEST-*.xml 2>/dev/null | wc -l)
-          
-          echo "✅ **Passed Tests:** $TOTAL_PASSED" >> $GITHUB_STEP_SUMMARY
-          echo "❌ **Failed Tests:** $TOTAL_FAILED" >> $GITHUB_STEP_SUMMARY
-          echo "⏭️ **Skipped Tests:** $TOTAL_SKIPPED" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "📁 [Download Test Reports](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})" >> $GITHUB_STEP_SUMMARY
-        else
-          echo "⚠️ No test results found in target/surefire-reports/" >> $GITHUB_STEP_SUMMARY
-        fi
+    - name: Upload Allure Report as Artifact
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: allure-report
+        path: allure-history
+        retention-days: 30
+        
+    - name: Upload Surefire Reports
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: surefire-reports
+        path: target/surefire-reports/
+        retention-days: 30
