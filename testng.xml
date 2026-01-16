@@ -16,6 +16,8 @@
             <class name="com.api.testing.tests.SchemaValidationTest"/>
             <class name="com.api.testing.tests.ChainRequestTest"/>
             <class name="com.api.testing.tests.EnvironmentTest"/>
+            <class name="com.api.testing.tests.PojoTest"/>
+            <class name="com.api.testing.tests.PojoCollectionsTest"/>
         </classes>
     </test>
 </suite>
