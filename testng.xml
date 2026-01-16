@@ -15,6 +15,7 @@
             <class name="com.api.testing.tests.ResponseLoggingAndAssertionTest"/>
             <class name="com.api.testing.tests.SchemaValidationTest"/>
             <class name="com.api.testing.tests.ChainRequestTest"/>
+            <class name="com.api.testing.tests.EnvironmentTest"/>
         </classes>
     </test>
 </suite>

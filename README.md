@@ -53,7 +53,7 @@ mvn clean install
 
 ## Running Tests
 
-### Run all tests:
+### Run all tests (default: dev environment):
 ```bash
 mvn test
 ```
@@ -61,6 +61,8 @@ mvn test
 ### Run specific test class:
 ```bash
 mvn test -Dtest=GetRequestTest
+mvn test -Dtest=ChainRequestTest
+mvn test -Dtest=SchemaValidationTest
 ```
 
 ### Run specific test method:
@@ -72,6 +74,23 @@ mvn test -Dtest=GetRequestTest#testGetAllPosts
 ```bash
 mvn test -DsuiteXmlFile=testng.xml
 ```
+
+### Run tests in different environments:
+```bash
+# Development environment (default)
+mvn test
+
+# Staging environment
+mvn test -Denv=staging
+
+# Production environment
+mvn test -Denv=prod
+
+# Specific test in staging
+mvn test -Dtest=ChainRequestTest -Denv=staging
+```
+
+For more details on environment configuration, see [README_ENVIRONMENT.md](README_ENVIRONMENT.md)
 
 ## Test Categories
 
@@ -93,6 +112,28 @@ mvn test -DsuiteXmlFile=testng.xml
 ### 4. DELETE Request Tests (DeleteRequestTest.java)
 - Delete a post
 - Verify deleted post
+
+### 5. Schema Validation Tests (SchemaValidationTest.java)
+- Validate single post response against JSON schema
+- Validate list of posts against JSON schema
+- Validate user response against JSON schema
+- Validate comment response against JSON schema
+- Schema validation with additional assertions
+
+### Multi-Environment Support**: Configure and run tests across dev, staging, and production environments
+- **ConfigManager**: Centralized configuration management with environment-specific settings
+- **BaseTest Class**: Provides common setup and utilities for all tests
+- **JSON Schema Validation**: Validate API responses against predefined JSON schemas
+- **Chain Request Testing**: Complete CRUD workflow demonstrations
+- **Reusable RequestSpec**: Methods for creating request specifications with headers
+- **Authentication Support**: Built-in support for Bearer token and Basic auth
+- Sequential test execution with dependencies
+- Single test method demonstrating full CRUD cycle
+
+### 7. Environment Tests (EnvironmentTest.java)
+- Verify environment configuration
+- Test API calls with environment-specific settings
+- Demonstrate authentication configuration
 
 ## Base API
 
