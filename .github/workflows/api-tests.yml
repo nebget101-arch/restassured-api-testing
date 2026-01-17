@@ -106,9 +106,7 @@ jobs:
         publish_dir: allure-history
         user_name: 'github-actions[bot]'
         user_email: 'github-actions[bot]@users.noreply.github.com'
-        force_orphan: true
         enable_jekyll: false
-        allow_empty_commit: false
         
     - name: Upload Allure Results as Artifact
       if: always()
