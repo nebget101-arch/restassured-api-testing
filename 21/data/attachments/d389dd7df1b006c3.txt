@@ -1,0 +1,5 @@
+{
+  "title": "Allure Test Post",
+  "body": "Testing Allure reporting",
+  "userId": 1
+}
