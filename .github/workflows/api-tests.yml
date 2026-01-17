@@ -101,6 +101,9 @@ jobs:
       if: always()
       run: |
         cd allure-history
+        # Remove any existing .git directory
+        rm -rf .git
+        # Initialize fresh git repo
         git init
         git config user.name "github-actions[bot]"
         git config user.email "github-actions[bot]@users.noreply.github.com"
