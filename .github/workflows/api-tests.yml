@@ -97,16 +97,18 @@ jobs:
         echo "Final directory contents:"
         ls -laR allure-history/
         
-    - name: Deploy Allure Report to GitHub Pages
+    - name: Deploy to GitHub Pages
       if: always()
-      uses: peaceiris/actions-gh-pages@v4
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_branch: gh-pages
-        publish_dir: allure-history
-        user_name: 'github-actions[bot]'
-        user_email: 'github-actions[bot]@users.noreply.github.com'
-        enable_jekyll: false
+      run: |
+        cd allure-history
+        git init
+        git config user.name "github-actions[bot]"
+        git config user.email "github-actions[bot]@users.noreply.github.com"
+        git add -A
+        git commit -m "Deploy Allure Report - $(date +'%Y-%m-%d %H:%M:%S')"
+        git branch -M gh-pages
+        git remote add origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
+        git push -f origin gh-pages
         
     - name: Upload Allure Results as Artifact
       if: always()
