@@ -100,9 +100,11 @@ jobs:
     - name: Deploy to GitHub Pages
       if: always()
       run: |
-        cd allure-history
-        # Remove any existing .git directory
-        rm -rf .git
+        # Create a clean temporary directory for deployment
+        mkdir -p /tmp/gh-pages-deploy
+        # Copy allure-history content (excluding .git)
+        rsync -av --exclude='.git' allure-history/ /tmp/gh-pages-deploy/
+        cd /tmp/gh-pages-deploy
         # Initialize fresh git repo
         git init
         git config user.name "github-actions[bot]"
