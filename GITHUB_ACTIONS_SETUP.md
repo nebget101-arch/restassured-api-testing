@@ -19,13 +19,15 @@ Go to your repository on GitHub:
 6. Check ✅ **"Allow GitHub Actions to create and approve pull requests"**
 7. Click **Save**
 
-### 2. Enable GitHub Pages
+### 2. Enable GitHub Pages (Will auto-configure after first run)
 
+The workflow will automatically create the `gh-pages` branch on first successful run.
+
+After the first workflow completes:
 1. In **Settings**, click **Pages** in left sidebar
-2. Under **Source**, select **"Deploy from a branch"**
-3. Select branch: **gh-pages**
-4. Select folder: **/ (root)**
-5. Click **Save**
+2. Under **Source**, it should show **"Deploy from a branch"**
+3. Branch should be: **gh-pages** / **/ (root)**
+4. If not, select it and click **Save**
 
 ### 3. Re-run Failed Workflow
 

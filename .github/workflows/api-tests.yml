@@ -47,6 +47,15 @@ jobs:
       with:
         ref: gh-pages
         path: gh-pages
+    
+    - name: Copy Allure history
+      if: always()
+      continue-on-error: true
+      run: |
+        if [ -d "gh-pages" ]; then
+          mkdir -p allure-history
+          cp -r gh-pages/* allure-history/ || echo "No history to copy"
+        fi
         
     - name: Generate Allure Report
       uses: simple-elf/allure-report-action@master
@@ -72,6 +81,8 @@ jobs:
         publish_dir: allure-history
         user_name: 'github-actions[bot]'
         user_email: 'github-actions[bot]@users.noreply.github.com'
+        force_orphan: true
+        keep_files: false
         
     - name: Upload Allure Results as Artifact
       if: always()
