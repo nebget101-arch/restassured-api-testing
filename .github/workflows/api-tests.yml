@@ -115,6 +115,29 @@ jobs:
         git remote add origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
         git push -f origin gh-pages
         
+    - name: Generate Workflow Summary
+      if: always()
+      run: |
+        echo "## 📊 Allure Report Deployment" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "### 🔗 Report URLs" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "📄 **GitHub Pages:** https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "📦 **Artifacts (Download Below):**" >> $GITHUB_STEP_SUMMARY
+        echo "- allure-report (Full HTML report)" >> $GITHUB_STEP_SUMMARY
+        echo "- allure-results (Raw test results)" >> $GITHUB_STEP_SUMMARY
+        echo "- surefire-reports (TestNG XML reports)" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "### ⚙️ Setup GitHub Pages" >> $GITHUB_STEP_SUMMARY
+        echo "If this is the first run:" >> $GITHUB_STEP_SUMMARY
+        echo "1. Go to **Settings** → **Pages**" >> $GITHUB_STEP_SUMMARY
+        echo "2. Source: **Deploy from a branch**" >> $GITHUB_STEP_SUMMARY
+        echo "3. Branch: **gh-pages** / **/ (root)**" >> $GITHUB_STEP_SUMMARY
+        echo "4. Click **Save**" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "⏱️ GitHub Pages may take 1-2 minutes to update after deployment." >> $GITHUB_STEP_SUMMARY
+        
     - name: Upload Allure Results as Artifact
       if: always()
       uses: actions/upload-artifact@v4
