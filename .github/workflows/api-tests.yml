@@ -72,6 +72,31 @@ jobs:
         ls -la allure-history/ || echo "No allure-history directory found"
         find allure-history -type f -name "index.html" || echo "No index.html found"
         
+    - name: Verify Allure Report Directory
+      if: always()
+      run: |
+        if [ ! -d "allure-history" ]; then
+          echo "Creating allure-history directory..."
+          mkdir -p allure-history
+        fi
+        
+        if [ ! -f "allure-history/index.html" ]; then
+          echo "Warning: No index.html found, creating placeholder..."
+          cat > allure-history/index.html << 'EOF'
+        <!DOCTYPE html>
+        <html>
+        <head><title>Allure Report</title></head>
+        <body>
+        <h1>Allure Report Generation in Progress</h1>
+        <p>The report will be available after the first successful test run.</p>
+        </body>
+        </html>
+        EOF
+        fi
+        
+        echo "Final directory contents:"
+        ls -laR allure-history/
+        
     - name: Deploy Allure Report to GitHub Pages
       if: always()
       uses: peaceiris/actions-gh-pages@v4
@@ -82,7 +107,8 @@ jobs:
         user_name: 'github-actions[bot]'
         user_email: 'github-actions[bot]@users.noreply.github.com'
         force_orphan: true
-        keep_files: false
+        enable_jekyll: false
+        allow_empty_commit: false
         
     - name: Upload Allure Results as Artifact
       if: always()
