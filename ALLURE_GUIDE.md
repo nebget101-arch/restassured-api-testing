@@ -249,6 +249,31 @@ Allure.addAttachment("Response", "application/json", responseJson);
 
 ## 🔍 Troubleshooting
 
+### GitHub Actions Issues
+
+#### Error: Failed to push to gh-pages
+**Solution:**
+1. Go to repository **Settings** → **Actions** → **General**
+2. Scroll to **Workflow permissions**
+3. Select **Read and write permissions**
+4. Check **Allow GitHub Actions to create and approve pull requests**
+5. Click **Save**
+
+#### Error: GitHub Pages deployment failed
+**Solution:**
+1. Go to **Settings** → **Pages**
+2. Ensure Source is set to **Deploy from a branch**
+3. Select branch: **gh-pages** and folder: **/ (root)**
+4. Save and wait for deployment
+
+#### Workflow not triggering
+**Solution:**
+- Ensure workflow file is in `.github/workflows/` directory
+- Check branch names match (main/develop)
+- Manually trigger: Go to **Actions** → Select workflow → **Run workflow**
+
+### Local Issues
+
 ### Issue: Report not generating
 ```bash
 # Check Allure results exist

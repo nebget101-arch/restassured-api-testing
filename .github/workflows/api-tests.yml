@@ -32,6 +32,14 @@ jobs:
       run: mvn clean test
       continue-on-error: true
       
+    - name: List Allure Results
+      if: always()
+      run: |
+        echo "Checking Allure results directory..."
+        ls -la target/allure-results/ || echo "No allure-results directory found"
+        echo "File count:"
+        find target/allure-results -type f | wc -l || echo "0"
+      
     - name: Get Allure history
       uses: actions/checkout@v4
       if: always()
@@ -47,6 +55,13 @@ jobs:
         allure_results: target/allure-results
         allure_history: allure-history
         keep_reports: 20
+        
+    - name: List Generated Report
+      if: always()
+      run: |
+        echo "Checking generated report..."
+        ls -la allure-history/ || echo "No allure-history directory found"
+        find allure-history -type f -name "index.html" || echo "No index.html found"
         
     - name: Deploy Allure Report to GitHub Pages
       if: always()

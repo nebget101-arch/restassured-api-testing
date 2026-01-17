@@ -1,8 +1,11 @@
 package com.api.testing.base;
 
 import com.api.testing.utils.ConfigManager;
+import io.qameta.allure.restassured.AllureRestAssured;
 import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
+import io.restassured.filter.log.RequestLoggingFilter;
+import io.restassured.filter.log.ResponseLoggingFilter;
 import io.restassured.specification.RequestSpecification;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -13,6 +16,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * Base class for API tests - provides common setup and utilities
  * Supports multiple environments via ConfigManager
+ * Integrates with Allure reporting
  */
 public class BaseTest {
     protected static final Logger logger = LogManager.getLogger(BaseTest.class);
@@ -50,10 +54,13 @@ public class BaseTest {
         builder.setContentType("application/json");
         builder.setAccept("application/json");
         
+        // Add Allure REST Assured filter for detailed reporting
+        builder.addFilter(new AllureRestAssured());
+        
         // Add logging if enabled
         if (ConfigManager.isLoggingEnabled()) {
-            builder.addFilter(io.restassured.filter.log.RequestLoggingFilter.logRequestTo(System.out));
-            builder.addFilter(io.restassured.filter.log.ResponseLoggingFilter.logResponseTo(System.out));
+            builder.addFilter(new RequestLoggingFilter());
+            builder.addFilter(new ResponseLoggingFilter());
         }
         
         return builder.build();
